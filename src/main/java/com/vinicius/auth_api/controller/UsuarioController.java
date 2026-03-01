@@ -30,15 +30,6 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.salvarUsuario(usuario));
     }
 
-    // metodo auth criado para testes |
-
-    // EM todas as requisicoes para o uri ele vai athenticar no secutiry logo isso fica inutil
-//    @PostMapping("/auth")
-//    public ResponseEntity<Void> validadorToken(@RequestHeader("Authorization") String token) {
-//        redisService.validarToken(token);
-//        return ResponseEntity.ok().build();
-//    }
-
     // logar para ganhar o token
     @PostMapping("/login")
     public ResponseEntity<String> salvarUser(@RequestBody Usuario user){
@@ -50,13 +41,9 @@ public class UsuarioController {
                 )
         );
 
-        // 2. Cria o token usando o email
         String token = jwtUtil.generateToken(authentication.getName());
-
-        // 3. Salva o token no Redis
         redisService.salvarToken(authentication.getName(), token);
 
-        // 4. Retorna o token
         return ResponseEntity.ok("Bearer " + token);
     }
 
