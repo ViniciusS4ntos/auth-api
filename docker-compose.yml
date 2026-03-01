@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+
+  redis:
+    image: redis:7
+    container_name: redis-auth-api
+    restart: always
+    ports:
+      - "6379:6379"
+
+  auth-api:
+    build: .
+    container_name: auth-api
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/tokenTeste
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 2006
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+    depends_on:
+      - redis
