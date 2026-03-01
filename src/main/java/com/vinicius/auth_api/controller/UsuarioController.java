@@ -63,7 +63,7 @@ public class UsuarioController {
 
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> buscarUsuarioPorEmail(){
+    public ResponseEntity<List<Usuario>> buscarUsuarioPorEmail(@RequestHeader("Authorization") String token){
         return ResponseEntity.ok(usuarioService.listaUsers());
     }
 }
