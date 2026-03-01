@@ -13,7 +13,7 @@ import java.util.Date;
 public class JwtUtil {
 
     // Chave secreta usada para assinar e verificar tokens JWT
-    private final String secretKey = "invest-auth-api-secret-key-256-bits-strong!!";
+    private final String secretKey = "sua-senha-grande-bem-aqui!!!-abc-dfc-ddd-ss";
 
 
 
