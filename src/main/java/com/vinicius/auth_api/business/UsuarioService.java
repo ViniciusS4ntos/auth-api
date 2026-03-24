@@ -5,6 +5,7 @@ import com.vinicius.auth_api.controller.converte.UsuarioConverte;
 import com.vinicius.auth_api.infrastructure.entity.PasswordResetToken;
 import com.vinicius.auth_api.infrastructure.entity.Usuario;
 import com.vinicius.auth_api.infrastructure.exception.EmailExistenteException;
+import com.vinicius.auth_api.infrastructure.exception.ResourceNotFoundException;
 import com.vinicius.auth_api.infrastructure.repository.PasswordResetTokenRepository;
 import com.vinicius.auth_api.infrastructure.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +51,12 @@ public class UsuarioService {
 
         String token = UUID.randomUUID().toString();
 
+        try{
+            usuarioRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("Email nao encontrado"));
+        } catch (RuntimeException e){
+            throw new RuntimeException("Erro de serve");
+        }
+
         PasswordResetToken prt = new PasswordResetToken();
         prt.setToken(token);
         prt.setEmail(email);
@@ -57,7 +64,7 @@ public class UsuarioService {
 
         passwordResetTokenRepository.save(prt);
 
-        String link = "${APP_URL}/pages/reset-password.html?token=" + token;
+        String link = "http://localhost:5500/pages/reset-password.html?token=" + token;
 
         emailService.enviarEmail(
                 email,
