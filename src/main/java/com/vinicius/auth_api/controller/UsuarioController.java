@@ -2,6 +2,7 @@ package com.vinicius.auth_api.controller;
 
 import com.vinicius.auth_api.business.RedisService;
 import com.vinicius.auth_api.business.UsuarioService;
+import com.vinicius.auth_api.controller.DTO.UsuarioDTO;
 import com.vinicius.auth_api.infrastructure.entity.Usuario;
 import com.vinicius.auth_api.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class UsuarioController {
 
     //  salvar user
     @PostMapping
-    public ResponseEntity<Usuario> salvarUsuario(@RequestBody Usuario usuario){
+    public ResponseEntity<UsuarioDTO> salvarUsuario(@RequestBody Usuario usuario){
         return ResponseEntity.ok(usuarioService.salvarUsuario(usuario));
     }
 
@@ -48,10 +49,29 @@ public class UsuarioController {
         return ResponseEntity.ok("Bearer " + token);
     }
 
-
-
     @GetMapping
-    public ResponseEntity<List<Usuario>> buscarUsuarioPorEmail(@RequestHeader("Authorization") String token){
+    public ResponseEntity<List<UsuarioDTO>> buscarUsuarioPorEmail(@RequestHeader("Authorization") String token){
         return ResponseEntity.ok(usuarioService.listaUsers());
     }
+
+
+    @PostMapping("/redefinir-senha")
+    public ResponseEntity<Void> redefinirSenha(@RequestParam("email") String email){
+
+        usuarioService.forgotPassword(email);
+        return ResponseEntity.ok().build();
+
+    }
+
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<Void> resetarSenha(
+            @RequestParam String token,
+            @RequestParam String novaSenha){
+
+        usuarioService.resetPassword(token, novaSenha);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }

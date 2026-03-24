@@ -33,6 +33,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
+        String path = request.getRequestURI();
+
+        // Pula filtro para endpoints públicos
+        if (path.contains("/redefinir-senha") || path.contains("/reset-password")) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         // Deixa requisições OPTIONS passarem direto (preflight CORS)
         if (request.getMethod().equals("OPTIONS")) {
             chain.doFilter(request, response);
