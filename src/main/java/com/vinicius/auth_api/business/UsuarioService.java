@@ -57,12 +57,16 @@ public class UsuarioService {
 
         passwordResetTokenRepository.save(prt);
 
-        String link = "${APP_URL}/pages/reset-password.html?token=" + token;
+        String link = appUrl + "/pages/reset-password.html?token=" + token;
 
         emailService.enviarEmail(
                 email,
                 "Redefinição de senha",
-                "Clique no link: " + link
+                "Olá! Recebemos uma solicitação para redefinir a senha da sua conta.\n\n" +
+                        "Clique no link abaixo para criar uma nova senha:\n" +
+                        link + "\n\n" +
+                        "Este link expira em 10 minutos.\n\n" +
+                        "Se você não solicitou a redefinição, ignore este email."
         );
     }
 
