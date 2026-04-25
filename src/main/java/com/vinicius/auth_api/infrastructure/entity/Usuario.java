@@ -1,10 +1,7 @@
 package com.vinicius.auth_api.infrastructure.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "tb_usuarios")
@@ -12,6 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
+@Builder
 public class Usuario {
 
     @Id
